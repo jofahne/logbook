@@ -3,7 +3,13 @@ import folium
 import pandas as pd
 import numpy as np
 
-df = Converter(input_file='trip_kathy-cool-mallorca-2021.gpx').gpx_to_dataframe()
+#input = 'trip_kathy-cool-mallorca-2021.gpx'
+#output = 'Map_Kathy_Cool.html'
+input = 'trip_deutschlandpokal-ruegen-2021.gpx'
+output = 'Ruegen.html'
+
+
+df = Converter(input_file=input).gpx_to_dataframe()
 df['day'] = df.time.dt.day
 df['weekday'] = df.time.dt.weekday
 df['date'] = df.time.dt.strftime('%d.%m.%Y')
@@ -106,4 +112,4 @@ map.add_child(fg2)
 map.add_child(fg3)
 map.add_child(fg4)
 map.add_child(folium.LayerControl())
-map.save('Map_Kathy_Cool.html')
+map.save(output)
