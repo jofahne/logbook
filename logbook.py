@@ -16,7 +16,7 @@ df['speed'] = (np.sqrt(df['delta_lat']**2+df['delta_lon']**2)/100)*6000/(df['del
 df['distance'] = ((np.sqrt(df['delta_lat']**2+df['delta_lon']**2)/100)*6000).fillna(0)
 df['sum_distance'] = np.cumsum(df['distance'])
 
-print(df.head())
+#print(df.head())
 
 lat = list(df['latitude'])
 lon = list(df['longitude'])
