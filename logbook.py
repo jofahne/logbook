@@ -6,7 +6,8 @@ import numpy as np
 df = Converter(input_file='trip_kathy-cool-mallorca-2021.gpx').gpx_to_dataframe()
 df['day'] = df.time.dt.day
 df['weekday'] = df.time.dt.weekday
-df['date'] = df.time.dt.date
+df['date'] = df.time.dt.strftime('%d.%m.%Y')
+df['hms'] = df.time.dt.strftime('%H:%M:%S')
 
 df['delta'] = (df['time']-df['time'].shift()).fillna(pd.Timedelta(seconds=0)).dt.seconds
 df['delta_lat'] = (df['latitude']-df['latitude'].shift()).fillna(0)
@@ -20,6 +21,7 @@ day = list(df['day'])
 wday = list(df['weekday'])
 speed = list(df['speed'])
 date = list(df['date'])
+hms = list(df['hms'])
 
 html = """
 <p style="font-family: Arial, Verdana"</p>
@@ -64,8 +66,8 @@ map = folium.Map(location=[df['latitude'].iloc[0], df['longitude'].iloc[0]],zoom
 
 fg1 = folium.FeatureGroup(name='Waypoints')
 
-for lt, ln, ti, d, wd, s, d in zip(lat, lon, time, day, wday, speed, date):
-    iframe = folium.IFrame(html=html % (d, ti, round(s,1)), width=200, height=100)
+for lt, ln, ti, d, wd, s, d, hm in zip(lat, lon, time, day, wday, speed, date, hms):
+    iframe = folium.IFrame(html=html % (d, hm, round(s,1)), width=150, height=115)
     fg1.add_child(folium.CircleMarker(location=[lt, ln], radius = 4, popup=folium.Popup(iframe), fill_color=color_producer(wd), color=None, fill_opacity=0.3))
 
 days = df['day'].unique()
