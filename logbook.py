@@ -24,10 +24,11 @@ date = list(df['date'])
 hms = list(df['hms'])
 
 html = """
-<p style="font-family: Arial, Verdana"</p>
+<font face="Arial" size="2.7px" color="#000000">
 <p style="text-align: left;"><span style="text-decoration: underline;"><strong>Date:</strong></span> %s</p>
 <p style="text-align: left;"><span style="text-decoration: underline;"><strong>Time:</strong></span> %s</p>
 <p style="text-align: left;"><span style="text-decoration: underline;"><strong>Speed:</strong></span> %skt</p>
+</font>
 """
 
 def color_producer(day):
