@@ -13,6 +13,10 @@ df['delta'] = (df['time']-df['time'].shift()).fillna(pd.Timedelta(seconds=0)).dt
 df['delta_lat'] = (df['latitude']-df['latitude'].shift()).fillna(0)
 df['delta_lon'] = (df['longitude']-df['longitude'].shift()).fillna(0)
 df['speed'] = (np.sqrt(df['delta_lat']**2+df['delta_lon']**2)/100)*6000/(df['delta']/3600).fillna(0)
+df['distance'] = ((np.sqrt(df['delta_lat']**2+df['delta_lon']**2)/100)*6000).fillna(0)
+df['sum_distance'] = np.cumsum(df['distance'])
+
+print(df.head())
 
 lat = list(df['latitude'])
 lon = list(df['longitude'])
@@ -22,12 +26,14 @@ wday = list(df['weekday'])
 speed = list(df['speed'])
 date = list(df['date'])
 hms = list(df['hms'])
+sumdis = list(df['sum_distance'])
 
 html = """
 <font face="Arial" size="2.7px" color="#000000">
 <p style="text-align: left;"><span style="text-decoration: underline;"><strong>Date:</strong></span> %s</p>
 <p style="text-align: left;"><span style="text-decoration: underline;"><strong>Time:</strong></span> %s</p>
 <p style="text-align: left;"><span style="text-decoration: underline;"><strong>Speed:</strong></span> %skt</p>
+<p style="text-align: left;"><span style="text-decoration: underline;"><strong>Distance:</strong></span> %snm</p>
 </font>
 """
 
@@ -67,8 +73,8 @@ map = folium.Map(location=[df['latitude'].iloc[0], df['longitude'].iloc[0]],zoom
 
 fg1 = folium.FeatureGroup(name='Waypoints')
 
-for lt, ln, ti, d, wd, s, d, hm in zip(lat, lon, time, day, wday, speed, date, hms):
-    iframe = folium.IFrame(html=html % (d, hm, round(s,1)), width=150, height=115)
+for lt, ln, ti, d, wd, s, d, hm, sd in zip(lat, lon, time, day, wday, speed, date, hms, sumdis):
+    iframe = folium.IFrame(html=html % (d, hm, round(s,1), round(sd,2)), width=170, height=125)
     fg1.add_child(folium.CircleMarker(location=[lt, ln], radius = 4, popup=folium.Popup(iframe), fill_color=color_producer(wd), color=None, fill_opacity=0.3))
 
 days = df['day'].unique()
