@@ -8,7 +8,6 @@ output = 'Map_Kathy_Cool.html'
 #input = 'trip_deutschlandpokal-ruegen-2021.gpx'
 #output = 'Ruegen.html'
 
-
 df = Converter(input_file=input).gpx_to_dataframe()
 df['day'] = df.time.dt.day
 df['weekday'] = df.time.dt.weekday
