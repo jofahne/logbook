@@ -72,15 +72,14 @@ def color_speed_producer(speed):
         color = 'red'
     return(color)
 
-
-
 map = folium.Map(location=[df['latitude'].iloc[0], df['longitude'].iloc[0]],zoom_start=9, titles='Stamen Terrain')
 
 fg1 = folium.FeatureGroup(name='Waypoints')
 
-for lt, ln, ti, d, wd, s, d, hm, sd in zip(lat, lon, time, day, wday, speed, date, hms, sumdis):
-    iframe = folium.IFrame(html=html % (d, hm, round(s,1), round(sd,2)), width=170, height=125)
-    fg1.add_child(folium.CircleMarker(location=[lt, ln], radius = 4, popup=folium.Popup(iframe), fill_color=color_producer(wd), color=None, fill_opacity=0.3))
+for lab, row in df.iterrows():
+    iframe = folium.IFrame(html=html % (row['date'], row['hms'], round(row['speed'],1), round(row['sum_distance'],2)), width=170, height=125)
+    fg1.add_child(folium.CircleMarker(location=[row['latitude'], row['longitude']], radius = 4, popup=folium.Popup(iframe), fill_color=color_producer(row['weekday']), color=None, fill_opacity=0.3))
+
 
 days = df['day'].unique()
 
