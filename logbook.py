@@ -23,16 +23,6 @@ df['sum_distance'] = np.cumsum(df['distance'])
 
 #print(df.head())
 
-lat = list(df['latitude'])
-lon = list(df['longitude'])
-time = list(df['time'])
-day = list(df['day'])
-wday = list(df['weekday'])
-speed = list(df['speed'])
-date = list(df['date'])
-hms = list(df['hms'])
-sumdis = list(df['sum_distance'])
-
 html = """
 <font face="Arial" size="2.7px" color="#000000">
 <p style="text-align: left;"><span style="text-decoration: underline;"><strong>Date:</strong></span> %s</p>
